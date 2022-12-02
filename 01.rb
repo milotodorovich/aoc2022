@@ -20,10 +20,10 @@ INPUT
 elves = input.split("\n\n")
 
 sums = elves.map do |e|
-    e.split("\n").map { |i| i.to_i}.sum
+    e.split("\n").map(&:to_i).sum
 end
 
 puts "Most calories: #{sums.max}"
 
-top3 = sums.sort.slice(-3, 3).sum
+top3 = sums.max(3).sum
 puts "Top 3 calories: #{top3}"
