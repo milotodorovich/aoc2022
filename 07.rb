@@ -57,7 +57,6 @@ class Node
 end
 
 first, *commands = input.split("\n$ ")
-pp commands
 
 navigator = []
 # handle first separately
@@ -72,16 +71,8 @@ directories = [navigator.first]
 
 commands.each do |c|
     command, *results = c.split("\n")
-    puts "---"
-    pp "Command: #{command}"
-    puts "--"
-    pp results
-    puts "---"
-
     case command
     when "ls" 
-        puts "list out the directory"
-        # contents = results.split("\n")
         results.each do |content|
             case content
             when /^dir/
@@ -93,48 +84,29 @@ commands.each do |c|
                 navigator.last.add_file(name, size.to_i)
             end
         end
-
-        # break out files and directories
-        #
     when /^cd/
-        puts "navigate"
         dir = command.split(" ").last
-        puts "Dir: #{dir}"
         if dir == ".."
             navigator.pop
         else
             navigator.push(navigator.last.cd(dir))
         end
-        # push or pop onto the depth stack
     else
         puts "UNKNOWN"
     end
-    
-    # 3.times { puts "" }
-    # pp navigator
-    # 3.times { puts "" }
-
 end
-puts "---"
-# pp directories.map { |d| [d.name, d.total_size]}
-# puts "---"
+
+puts "Part I"
 puts directories.select { |d| d.total_size <= 100000 }.map(&:total_size).sum
 
 
 puts "Part II"
-# pp directories.first
 used_space = navigator.first.total_size
-puts "Used space    #{used_space}"
+# puts "Used space    #{used_space}"
 unused_space = 70000000 - used_space
-puts "Un-used space #{unused_space}"
+# puts "Un-used space #{unused_space}"
 needed_space = 30000000 - unused_space
-puts "Needed space  #{needed_space}"
-puts "--"
-# pp directories.map { |d| [d.name, d.total_size]}
-puts "--"
-pp directories.map { |d| [d.name, d.total_size]}.select { |d| d[1] >= needed_space}
-puts "--"
-pp directories.map { |d| [d.name, d.total_size]}.select { |d| d[1] >= needed_space}.sort_by { |d| d[1]}
-puts "=="
-puts "Result:"
+# puts "Needed space  #{needed_space}"
+# puts "=="
+# puts "Result:"
 pp directories.map { |d| [d.name, d.total_size]}.select { |d| d[1] >= needed_space}.sort_by { |d| d[1]}.first[1]
