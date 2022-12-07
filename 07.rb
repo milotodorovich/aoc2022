@@ -68,7 +68,7 @@ unless first == "$ cd /"
 end
 
 navigator << Node.new("/")
-directories = []
+directories = [navigator.first]
 
 commands.each do |c|
     command, *results = c.split("\n")
@@ -115,8 +115,26 @@ commands.each do |c|
     # 3.times { puts "" }
 
 end
-# pp directories
 puts "---"
-pp directories.map { |d| [d.name, d.total_size]}
-puts "---"
+# pp directories.map { |d| [d.name, d.total_size]}
+# puts "---"
 puts directories.select { |d| d.total_size <= 100000 }.map(&:total_size).sum
+
+
+puts "Part II"
+# pp directories.first
+used_space = navigator.first.total_size
+puts "Used space    #{used_space}"
+unused_space = 70000000 - used_space
+puts "Un-used space #{unused_space}"
+needed_space = 30000000 - unused_space
+puts "Needed space  #{needed_space}"
+puts "--"
+# pp directories.map { |d| [d.name, d.total_size]}
+puts "--"
+pp directories.map { |d| [d.name, d.total_size]}.select { |d| d[1] >= needed_space}
+puts "--"
+pp directories.map { |d| [d.name, d.total_size]}.select { |d| d[1] >= needed_space}.sort_by { |d| d[1]}
+puts "=="
+puts "Result:"
+pp directories.map { |d| [d.name, d.total_size]}.select { |d| d[1] >= needed_space}.sort_by { |d| d[1]}.first[1]
