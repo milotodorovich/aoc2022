@@ -6,7 +6,7 @@ input = <<INPUT
 35390
 INPUT
 
-input = File.read("data/input08.txt")
+# input = File.read("data/input08.txt")
 
 rows = input.split("\n").map(&:chars).map { |r| r.map(&:to_i)}
 cols = []
