@@ -9,7 +9,7 @@ L 5
 R 2
 INPUT
 
-input = File.read("data/input09.txt")
+# input = File.read("data/input09.txt")
 
 moves = input.split("\n")
 
@@ -79,5 +79,50 @@ moves.each do |m|
     end
 end
 
-pp visited
+# pp visited
+puts "Part I: #{visited.uniq.size}"
+
+inut = <<INPUT
+R 5
+U 8
+L 8
+D 3
+R 17
+D 10
+L 25
+U 20
+INPUT
+
+knots = [
+    Point.new(0,0),
+    Point.new(0,0),
+    Point.new(0,0),
+    Point.new(0,0),
+    Point.new(0,0),
+    Point.new(0,0),
+    Point.new(0,0),
+    Point.new(0,0),
+    Point.new(0,0),
+    Point.new(0,0)
+]
+puts "Start"
+pp knots
+
+visited = []
+visited << knots.last.to_a
+
+moves.each do |m|
+    direction, times = m.split(" ")
+    times.to_i.times do
+        knots[0].move(direction)
+        knots[1].follow(knots[0])
+        (knots.size - 1).times do |i|
+            knots[i+1].follow(knots[i])
+        end
+
+        visited << knots.last.to_a
+    end
+end
+
+# pp visited
 puts "Part I: #{visited.uniq.size}"
