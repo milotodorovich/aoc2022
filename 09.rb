@@ -60,21 +60,22 @@ Point = Struct.new(:x, :y) do
 end
 # pp Point.instance_methods.sort
 
-head_position = Point.new(0,0)
-tail_position = Point.new(0,0)
+knots = [
+    Point.new(0,0),
+    Point.new(0,0)
+]
 puts "Start"
-        pp head_position
-        pp tail_position
+pp knots
 
 visited = []
-visited << tail_position.to_a
+visited << knots.last.to_a
 
 moves.each do |m|
     direction, times = m.split(" ")
     times.to_i.times do
-        head_position.move(direction)
-        tail_position.follow(head_position)
-        visited << tail_position.to_a
+        knots[0].move(direction)
+        knots[1].follow(knots[0])
+        visited << knots.last.to_a
     end
 end
 
