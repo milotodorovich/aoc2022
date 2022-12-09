@@ -9,11 +9,11 @@ L 5
 R 2
 INPUT
 
-# input = File.read("data/input09.txt")
+input = File.read("data/input09.txt")
 
 moves = input.split("\n")
 
-Point = Struct.new(:x, :y) do
+Point = Struct.new(:name, :x, :y) do
     def move(direction)
         case direction
         when "R"
@@ -32,24 +32,48 @@ Point = Struct.new(:x, :y) do
 
     def follow(head) 
         if (head.x - x).abs <=1 && (head.y - y).abs <= 1 
-            # puts "Early return"
-            # pp head
-            # pp self
-            # puts "****"
             return 
         end
         if head.x - x > 1
             self.x = x + 1
-            self.y = head.y
+            self.y = case 
+            when head.y > self.y 
+                y + 1 
+            when head.y < self.y
+                y - 1
+            else 
+                y
+            end
         elsif head.x - x < -1
             self.x = x - 1
-            self.y = head.y
+            self.y = case
+            when head.y > self.y  
+                y + 1 
+            when head.y < self.y
+                y - 1
+            else 
+                y
+            end
         elsif head.y - y > 1
             self.y = y + 1
-            self.x = head.x
+            self.x = case
+            when head.x > self.x  
+                x + 1 
+            when head.x < self.x
+                x - 1
+            else
+                x
+            end
         elsif head.y - y < -1
             self.y = y - 1
-            self.x = head.x
+            self.x = case 
+            when head.x > self.x 
+                x + 1 
+            when head.x < self.x 
+                x - 1
+            else 
+                x
+            end
         else
             puts "PANIC - should never get here!!!"
             pp head
@@ -58,11 +82,10 @@ Point = Struct.new(:x, :y) do
         end
     end
 end
-# pp Point.instance_methods.sort
 
 knots = [
-    Point.new(0,0),
-    Point.new(0,0)
+    Point.new("H", 0,0),
+    Point.new("T", 0,0)
 ]
 puts "Start"
 pp knots
@@ -82,28 +105,29 @@ end
 # pp visited
 puts "Part I: #{visited.uniq.size}"
 
-inut = <<INPUT
-R 5
-U 8
-L 8
-D 3
-R 17
-D 10
-L 25
-U 20
-INPUT
+# input = <<input
+# r 5
+# u 8
+# l 8
+# d 3
+# r 17
+# d 10
+# l 25
+# u 20
+# input
+moves = input.split("\n")
 
 knots = [
-    Point.new(0,0),
-    Point.new(0,0),
-    Point.new(0,0),
-    Point.new(0,0),
-    Point.new(0,0),
-    Point.new(0,0),
-    Point.new(0,0),
-    Point.new(0,0),
-    Point.new(0,0),
-    Point.new(0,0)
+    Point.new("H", 0,0),
+    Point.new("1", 0,0),
+    Point.new("2", 0,0),
+    Point.new("3", 0,0),
+    Point.new("4", 0,0),
+    Point.new("5", 0,0),
+    Point.new("6", 0,0),
+    Point.new("7", 0,0),
+    Point.new("8", 0,0),
+    Point.new("T", 0,0)
 ]
 puts "Start"
 pp knots
@@ -113,6 +137,7 @@ visited << knots.last.to_a
 
 moves.each do |m|
     direction, times = m.split(" ")
+
     times.to_i.times do
         knots[0].move(direction)
         knots[1].follow(knots[0])
@@ -122,7 +147,8 @@ moves.each do |m|
 
         visited << knots.last.to_a
     end
+    
 end
 
-# pp visited
-puts "Part I: #{visited.uniq.size}"
+pp knots
+puts "Part II: #{visited.uniq.size}"
