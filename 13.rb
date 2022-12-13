@@ -35,6 +35,7 @@ def compare(left, right)
     puts "Comparing #{left} and #{right}"
 
     return false if right.nil?
+    
     if left.is_a?(Numeric) && right.is_a?(Numeric)
         return left <= right
     end

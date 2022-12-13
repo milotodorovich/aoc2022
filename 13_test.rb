@@ -33,6 +33,10 @@ class ThirteenTest < Test::Unit::TestCase
     def test_array_and_number_NOT_in_order
         assert_false compare([2,3,4], 1)
     end
+    def test_right_nil
+        assert_false compare(1, nil)
+        assert_false compare([1], [])
+    end
 
     def test_1
         assert_true compare([1,1,3,1,1], [1,1,5,1,1])
