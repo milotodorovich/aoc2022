@@ -95,3 +95,16 @@ end
 puts "3 4 5 6 8 9 10 13 15 17 18 20 25 26 31 33 35 36 40 41 43 44 47 49 50 52 53 54 56 57 58 62 64 66 67 68 69 70 72 74 77 79 83 84 85 86 88 89 90 94 99 102 103 105 106 108 113 114 118 121 122 125 126 137 140 143 145 146 147 149"
 pp in_order
 puts "Part 1: #{sum}"
+
+
+packets = input.split("\n").map { |l| l == "" ? nil : l }.compact.map{ |x| JSON.parse(x)}
+pp packets
+packets << [[2]]
+packets << [[6]]
+sorted = packets.sort { |l, r| compare(l, r) }
+puts "--"
+pp sorted
+puts "--"
+idx1 = sorted.find_index([[2]]) + 1
+idx2 = sorted.find_index([[6]]) + 1
+puts "Part 2: #{idx1} * #{idx2} = #{idx1 * idx2}"
